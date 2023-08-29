@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { getDatabase, ref, child, get } from "firebase/database";
-import { Button, Container } from "react-bootstrap";
+import { Button, Container, Form, Row, Col, Image } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { setUser } from "../store";
-import { useDispatch, useSelector
-} from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 const Home = () => {
   const userData = useSelector((state) => state.user);
@@ -33,20 +32,48 @@ const Home = () => {
 
   return (
     <Container>
-      <h1>Profile</h1>
+      <h1>User Profile</h1>
       {Object.keys(userData).length ? (
         <>
-          <img
+          <div className="d-flex justify-content-center">
+          <Image
             src={userData.profilePicture ? userData.profilePicture : ""}
-            width={100}
-            height={100}
+            width={150}
+            height={150}
+            className="mb-3"
+            roundedCircle 
           />
-          <h3>
-            Name : {userData.firstname} {userData.lastname}
-          </h3>
-          <h4>Mobile No : {userData.phoneNo}</h4>
-          <h4>Email : {userData.email}</h4>
-          <h4>Date of Birth : {userData.dob}</h4>
+          </div>
+          <Form>
+            <Row className="mb-3">
+              <Form.Group as={Col} controlId="formGridEmail">
+                <Form.Label>First name</Form.Label>
+                <Form.Control value={userData.firstname} disabled/>
+              </Form.Group>
+
+              <Form.Group as={Col} controlId="formGridPassword">
+                <Form.Label>Last name</Form.Label>
+                <Form.Control value={userData.lastname} disabled />
+              </Form.Group>
+            </Row>
+            <Row className="mb-3">
+              <Form.Group as={Col} controlId="formGridEmail">
+                <Form.Label>Mobile No.</Form.Label>
+                <Form.Control value={userData.phoneNo} disabled/>
+              </Form.Group>
+
+              <Form.Group as={Col} controlId="formGridPassword">
+                <Form.Label>Date Of Birth</Form.Label>
+                <Form.Control value={userData.dob} disabled />
+              </Form.Group>
+            </Row>
+
+           
+            <Form.Group className="mb-3" controlId="formGridAddress2">
+              <Form.Label>Address 2</Form.Label>
+              <Form.Control value={userData.email} disabled/>
+            </Form.Group>
+          </Form>
           <Button onClick={startGame}>Start Game</Button>
         </>
       ) : (
